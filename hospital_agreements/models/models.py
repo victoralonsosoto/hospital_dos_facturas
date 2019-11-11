@@ -199,7 +199,7 @@ class hmsAppointment(models.Model):
            })
         if account:
             line = []
-            for x in self.consumable_line:
+            for x in self.services_line:
                 account_line=self.env['account.invoice.line'].create({                            
                     'origin':self.name,
                     'invoice_id':account.id,
