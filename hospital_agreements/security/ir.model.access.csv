@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hospital_agreement,hospital.agreement,model_hospital_agreement,,1,1,1,1
+access_excluded_product,excluded.product,model_excluded_product,,1,1,1,1
+access_appointment_consumable_service,appointment.consumable.service,model_appointment_consumable_service,,1,1,1,1

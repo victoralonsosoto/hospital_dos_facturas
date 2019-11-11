@@ -1,0 +1,202 @@
+<odoo>
+  <data>
+    <record id="inherit_to_acs_hospitalization" model="ir.ui.view">
+      <field name="name">inherit_to_acs_hospitalization</field>
+      <field name="model">acs.hospitalization</field>
+      <field name="inherit_id" ref="acs_hms_hospitalization.view_acs_hospitalization_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//sheet/group[1]" position="inside">
+          <group>
+            <field name="agreement_id" />
+            <field name="policy" />
+            <field name="co_payment" />
+            <field name="co_payment_amount" />
+            <field name="medical_coverage" />
+            <field name="amount" />
+            <field name="total_patient" />
+            <field name="total_agreement" />
+            <field name="amount_total" />
+            <field name="deposit" />
+          </group>
+        </xpath>
+        <xpath expr="//field[@name='consumable_line']/tree" position="inside" >
+          <field name="type" />
+          <field name="price_unit" />
+          <field name="subtotal" />
+          <field name="agreement_amount" />
+          <field name="patient_amount" />
+        </xpath>
+      </field>
+    </record>
+    <record id="inherit_to_hms_appointment" model="ir.ui.view">
+      <field name="name">inherit_to_hms_appointment</field>
+      <field name="model">hms.appointment</field>
+      <field name="inherit_id" ref="acs_hms.view_hms_appointment_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//sheet/group[1]" position="inside">
+          <group>
+            <field name="agreement_id" />
+            <field name="policy" />
+            <field name="co_payment" />
+            <field name="co_payment_amount" />
+            <field name="medical_coverage" />
+            <field name="amount" />
+            <field name="total_patient" />
+            <field name="total_agreement" />
+            <field name="amount_total" />
+            <field name="deposit" />
+          </group>
+        </xpath>
+        <xpath expr="//field[@name='consumable_line']/tree" position="inside" >
+          <field name="type" invisible="1"/>
+          <field name="price_unit" />
+          <field name="subtotal" />
+          <field name="agreement_amount" />
+          <field name="patient_amount" />
+        </xpath>
+        <xpath expr="//notebook/page[6]" position="after" >
+           <page string="Consumed Services">
+              <field name="services_line" nolabel="1" colspan="4">
+                  <tree string="Line" editable="top">
+                      <field name="product_id" expand="1" required="1" domain="[('tracking','=','none')]"/>
+                      <field name="product_uom" required="1"/>
+                      <field name="qty" required="1"/>
+                      <field name="date" required="1"/>
+                      <field name="move_id" invisible="1"/>
+                      <field name="price_unit" />
+                      <field name="subtotal" />
+                      <field name="agreement_amount" />
+                      <field name="patient_amount" />
+                  </tree>
+              </field>
+          </page>
+        </xpath>
+        <xpath expr="//button[@name='appointment_draft']" position="after" >
+          <button name="create_account" string="Crear Factura"  type="object" class="oe_highlight"/>
+        </xpath>
+      </field>
+    
+    </record>
+    <record model="ir.ui.view" id="hospital_agreements_list">
+      <field name="name">hospital_agreements list</field>
+      <field name="model">hospital.agreement</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="company_id"/>
+          <field name="services_company_id"/>
+          <field name="medicine_company_id"/>
+          <field name="medical_coverage"/>
+          <field name="amount"/>
+          <field name="co_payment"/>
+          <field name="co_payment_amount" />
+          <field name="credit_limit"/>
+          <field name="description"/>
+          <field name="active" invisible="1"/>
+        </tree>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="hospital_agreements_form">
+      <field name="name">hospital_agreements form</field>
+      <field name="model">hospital.agreement</field>
+      <field name="arch" type="xml">
+        <form>
+          <header></header>
+          <sheet>
+            <div class="oe_button_box" name="button_box" ></div>
+            <group>
+              <group>
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="services_company_id"/>
+                <field name="medicine_company_id"/>
+                <field name="medical_coverage"/>
+                <field name="amount"/>
+              </group>
+              <group>
+                <field name="co_payment"/>
+                <field name="co_payment_amount" />
+                <field name="credit_limit"/>
+                <field name="description"/>
+                <field name="active" invisible="1"/>
+              </group>
+            </group>
+            <notebook>
+              <page name="products_excluded" string="Excluidos">
+                <field name="excluded_product_ids">
+                  <tree editable="bottom" >
+                    <field name="name"/>
+                    <field name="hospital_agreement_id" invisible="1"/>
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record model="ir.actions.act_window" id="hospital_agreements_action_window">
+      <field name="name">hospital_agreements window</field>
+      <field name="res_model">hospital.agreement</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem name="Convenios" id="hospital_agreements_menu_root"/>
+    <menuitem name="Convenios" id="hospital_agreements_menu_convenios" parent="hospital_agreements_menu_root" action="hospital_agreements_action_window"/>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="hospital_agreements.list">
+      <field name="name">hospital_agreements list</field>
+      <field name="model">hospital_agreements.hospital_agreements</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="hospital_agreements.action_window">
+      <field name="name">hospital_agreements window</field>
+      <field name="res_model">hospital_agreements.hospital_agreements</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="hospital_agreements.action_server">
+      <field name="name">hospital_agreements server</field>
+      <field name="model_id" ref="model_hospital_agreements_hospital_agreements"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="hospital_agreements" id="hospital_agreements.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="hospital_agreements.menu_1" parent="hospital_agreements.menu_root"/>
+    <menuitem name="Menu 2" id="hospital_agreements.menu_2" parent="hospital_agreements.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="hospital_agreements.menu_1_list" parent="hospital_agreements.menu_1"
+              action="hospital_agreements.action_window"/>
+    <menuitem name="Server to list" id="hospital_agreements" parent="hospital_agreements.menu_2"
+              action="hospital_agreements.action_server"/>
+    -->
+  </data>
+</odoo>
